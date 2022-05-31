@@ -410,4 +410,4 @@ async def unlock(ctx, channel : discord.TextChannel=None, setting = None):
 
 keep_alive()
 TOKEN = os.environ.get("DISCORD_BOT_SECRET")
-Client.run('OTc0NjMxOTI2ODk3OTk5OTAy.GtqG0Q.K0xsxilDFXV0nhvZfN-6vZSIE6oiKI8O-DbCng')
+Client.run(TOKEN)
