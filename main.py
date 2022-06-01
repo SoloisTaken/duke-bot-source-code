@@ -10,6 +10,7 @@ from webserver import keep_alive
 bot = commands.Bot(command_prefix='d!', help_command=None)
 bot.load_extension("cmds")
 
+@commands.is_owner()
 @bot.command(description='Reload bot, hidden=True')
 async def reload(ctx):
     try:
