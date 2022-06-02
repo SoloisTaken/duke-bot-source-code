@@ -74,7 +74,7 @@ def setup(Client):
         embed = discord.Embed(title='Duke`s Commands', color=discord.Color.blue())
         embed.add_field(name= "🔵  Moderation", value='`clear` `kick` `ban` `unban` `mute` `unmute` `addrole` `removerole`', inline=False)
         embed.add_field(name='🔵  Channels', value='`createtc` `deltc` `createvc` `delvc` `createtac` `delcat` `lock` `unlock`', inline=False)
-        embed.add_field(name='🔵  Information', value='`ping` `avatar` `feedback` `invite` `serverinfo` `stats` `whois` `support`', inline=False)
+        embed.add_field(name='🔵  Information', value='`ping` `avatar` `feedback` `invite` `serverinfo` `stats` `whois` `support` `vote`', inline=False)
         embed.add_field(name='🔵  Announcements', value='`announce` `poll` `embed` `remind`', inline=False)
         embed.set_footer(text='Duke Bot © 2022')
         await ctx.send(embed=embed)
@@ -122,22 +122,6 @@ def setup(Client):
     # OR through attribute assignment
     help_object = commands.MinimalHelpCommand()
     help_object.command_attrs = attributes
-
-    class MyHelp(commands.HelpCommand):
-        async def send_error_message(self, error):
-            embed = discord.Embed(title="Error", description=error)
-            channel = self.get_destination()
-            await channel.send(embed=embed)
-
-    class MyHelp(commands.MinimalHelpCommand):
-        def get_command_brief(self, command):
-            return command.short_doc or "Command is not documented."
-        
-        async def send_bot_help(self, mapping):
-            all_commands = list(chain.from_iterable(mapping.values()))
-            formatter = HelpPageSource(all_commands, self)
-            menu = MyMenuPages(formatter, delete_message_after=True)
-            await menu.start(self.context)
 
     @Client.command(description="`Mutes the specified user.`")
     @commands.has_permissions(manage_messages=True)
@@ -237,7 +221,7 @@ def setup(Client):
 
         emb.set_footer(text=f"Sent by - {ctx.author}", icon_url=ctx.author.avatar_url)
         feedbk_chan = Client.get_channel(974564015072227349)
-        m = await feedbk_chan.send(embed=emb)
+        await feedbk_chan.send(embed=emb)
 
     @Client.command(description="`Never forget about anything.`")
     async def remind(ctx, time, *, task):
@@ -407,3 +391,12 @@ def setup(Client):
         channel = ctx.message.channel
       await channel.set_permissions(ctx.guild.default_role, reason=f"{ctx.author.name} unlocked {channel.name}", send_messages=True)
       await ctx.send('unlocked channel.')
+
+    @Client.command(description="`Vote Duke on Top.gg.`")
+    async def vote(ctx, invite_link=None):
+        if invite_link == None:
+            await ctx.message.author.send(embed=discord.Embed(
+                            title='Vote Duke',
+                            description = '[Click Here](https://top.gg/bot/974631926897999902/vote) To vote **Duke** on Top.gg',
+                            color=discord.Color.blue()
+                            ))
